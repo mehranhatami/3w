@@ -1,6 +1,6 @@
 {
   "name": "3w",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple express server for static file delivering",
   "main": "3w.js",
   "repository": {
