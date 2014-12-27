@@ -8,29 +8,13 @@
  */
 'use strict';
 
-var options = {
+var defaultOptions = {
   enableHTTPS: false,
   port: 9000,
   dir: 'app'
 };
-if (require.main === module) {
-  /*
-   * Each arg has a default value and the order doesn't matter
-   * node www.js 'src' --8080 --https
-   * --3000 'src'
-   * --https
-   */
-  process.argv.slice(2)
-    .forEach(function (val, index) {
-      if (val === '--https') options.enableHTTPS = true;
-      else if (val.slice(0, 2) === '--') {
-        val = val.slice(2);
-        if (!isNaN(val)) options.port = +val;
-      } else options.dir = val;
-    });
-}
 
-module.export = (function () {
+function www(options) {
   var express = require('express'),
     path = require('path'),
     logger = require('morgan'),
@@ -76,4 +60,33 @@ module.export = (function () {
   }
 
   return app;
-}());
+}
+
+if (require.main === module) {
+  /*
+   * Each arg has a default value and the order doesn't matter
+   * node node_modules/3w/3w.js 'src' --8080 --https
+   * node node_modules/3w/3w.js --3000 'src'
+   * node node_modules/3w/3w.js --https
+   */
+  process.argv.slice(2)
+    .forEach(function (val, index) {
+      if (val === '--https') defaultOptions.enableHTTPS = true;
+      else if (val.slice(0, 2) === '--') {
+        val = val.slice(2);
+        if (!isNaN(val)) defaultOptions.port = +val;
+      } else defaultOptions.dir = val;
+    });
+  www(defaultOptions);
+} else {
+  module.exports = function (options) {
+    var args = {};
+    args.enableHTTPS = (options.enableHTTPS === undefined) ?
+      defaultOptions.enableHTTPS :
+      options.enableHTTPS;
+    args.port = options.port || defaultOptions.port;
+    args.dir = options.dir || defaultOptions.dir;
+
+    return www(args);
+  };
+}
