@@ -36,13 +36,16 @@ module.export = (function () {
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
+    error = require('./error'),
     app = express();
 
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded());
   app.use(cookieParser());
-  app.use(express.static(path.join(__dirname, '../' + options.dir)));
+  app.use(express.static(path.join(__dirname, '../../' + options.dir)));
+
+  error(app);
 
   app.set('port', options.port);
 
@@ -54,32 +57,12 @@ module.export = (function () {
     var enableHTTPS = function (app) {
 
       var https = require('https'),
+        fs = require('fs'),
         agent2CertPem,
         agent2KeyPem;
 
-      agent2KeyPem = '-----BEGIN RSA PRIVATE KEY-----' +
-        'MIIBOgIBAAJBAMl2/Ba0XSm4ayi4C0rJ+tYtQu8O31VVXezkLJlf+6fVgdpVhYg5' +
-        'QlihlPUoiM/wOsDWQ1ALnNhPlcLaQk+etQECAwEAAQJBAMT6Bf34+UHKY1ObpsbH' +
-        '9u2jsVblFq1rWvs8GPMY6oertzvwm3DpuSUp7PTgOB1nLTLYtCERbQ4ovtN8tn3p' +
-        'OHUCIQDzIEGsoCr5vlxXvy2zJwu+fxYuhTZWMVuo1397L0VyhwIhANQh+yzqUgaf' +
-        'WRtSB4T2W7ADtJI35ET61jKBty3CqJY3AiAIwju7dVW3A5WeD6Qc1SZGKZvp9yCb' +
-        'AFI2BfVwwaY11wIgXF3PeGcvACMyMWsuSv7aPXHfliswAbkWuzcwA4TW01ECIGWa' +
-        'cgsDvVFxmfM5NPSuT/UDTa6R5BFISB5ea0N0AR3I' +
-        '-----END RSA PRIVATE KEY-----';
-
-      agent2CertPem = '-----BEGIN CERTIFICATE-----' +
-        'MIIB7DCCAZYCCQC7gs0MDNn6MTANBgkqhkiG9w0BAQUFADB9MQswCQYDVQQGEwJV' +
-        'UzELMAkGA1UECBMCQ0ExCzAJBgNVBAcTAlNGMQ8wDQYDVQQKEwZKb3llbnQxEDAO' +
-        'BgNVBAsTB05vZGUuanMxDzANBgNVBAMTBmFnZW50MjEgMB4GCSqGSIb3DQEJARYR' +
-        'cnlAdGlueWNsb3Vkcy5vcmcwHhcNMTEwMzE0MTgyOTEyWhcNMzgwNzI5MTgyOTEy' +
-        'WjB9MQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExCzAJBgNVBAcTAlNGMQ8wDQYD' +
-        'VQQKEwZKb3llbnQxEDAOBgNVBAsTB05vZGUuanMxDzANBgNVBAMTBmFnZW50MjEg' +
-        'MB4GCSqGSIb3DQEJARYRcnlAdGlueWNsb3Vkcy5vcmcwXDANBgkqhkiG9w0BAQEF' +
-        'AANLADBIAkEAyXb8FrRdKbhrKLgLSsn61i1C7w7fVVVd7OQsmV/7p9WB2lWFiDlC' +
-        'WKGU9SiIz/A6wNZDUAuc2E+VwtpCT561AQIDAQABMA0GCSqGSIb3DQEBBQUAA0EA' +
-        'C8HzpuNhFLCI3A5KkBS5zHAQax6TFUOhbpBCR0aTDbJ6F1liDTK1lmU/BjvPoj+9' +
-        '1LHwrmh29rK8kBPEjmymCQ==' +
-        '-----END CERTIFICATE-----';
+      agent2KeyPem = fs.readFileSync(__dirname + '/keys/agent2-key.pem');
+      agent2CertPem = fs.readFileSync(__dirname + '/keys/agent2-cert.pem');
 
       // Create an HTTPS service identical to the HTTP service.
       https.createServer({
