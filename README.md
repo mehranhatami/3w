@@ -33,7 +33,7 @@ sudo node node_modules/3w/3w.js src --3000
 ```
 
 ##API
-You could also require `3w` as a module, and set up the server like:
+You could also `require` 3w as a module, and set up the server like:
 
 ```javascript
 var www = require('3w'),
@@ -69,4 +69,4 @@ or:
 //This will expose the 'app' folder on '9000' and 'enableHTTPS' will be false
 app = www();
 ```
-This will give you the chance to tweak the app object to set up http proxies or any desired feature.
+This way you could also tweak the `app` object to set up features like `http-proxy` or any desired feature.
