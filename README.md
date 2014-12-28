@@ -29,7 +29,7 @@ node node_modules/3w/3w.js src --3000
 To enable https you could also pass `--https` which usually needs you to have `sudo` access on the machine:
 
 ```
-sudo node node_modules/3w/3w.js src --3000
+sudo node node_modules/3w/3w.js src --3000 --https
 ```
 
 ##API
