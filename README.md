@@ -69,4 +69,20 @@ or:
 //This will expose the 'app' folder on '9000' and 'enableHTTPS' will be false
 app = www();
 ```
-This way you could also tweak the `app` object to set up features like `http-proxy` or any desired feature.
+Using `3w` you could also tweak the `app` object to set up your `http-proxies` like:
+
+```javascript
+var www = require('3w'),
+  app;
+
+function proxy(app){
+  //...
+}
+
+app = www({
+  enableHTTPS: true,
+  port: 8888,
+  dir: 'src',
+  proxy: proxy
+});
+```

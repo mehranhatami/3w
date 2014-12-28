@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 3d v0.0.1
+ * 3w v0.0.4
  * Copyright (c) 2014 Mehran Hatami
  * Available via the MIT license.
  * license found at https://github.com/mehranhatami/3w/raw/master/LICENSE
@@ -22,6 +22,10 @@ function www(options) {
     bodyParser = require('body-parser'),
     error = require('./error'),
     app = express();
+
+  if (typeof options.proxy === 'function') {
+    options.proxy(app);
+  }
 
   app.use(logger('dev'));
   app.use(bodyParser.json());
@@ -80,13 +84,16 @@ if (require.main === module) {
   www(defaultOptions);
 } else {
   module.exports = function (options) {
-    var args = {};
-    args.enableHTTPS = (options.enableHTTPS === undefined) ?
-      defaultOptions.enableHTTPS :
-      options.enableHTTPS;
-    args.port = options.port || defaultOptions.port;
-    args.dir = options.dir || defaultOptions.dir;
+    if (options.enableHTTPS === undefined) {
+      options.enableHTTPS = defaultOptions.enableHTTPS;
+    }
+    if (options.port === undefined) {
+      options.port = defaultOptions.port;
+    }
+    if (options.dir === undefined) {
+      options.dir = defaultOptions.dir;
+    }
 
-    return www(args);
+    return www(options);
   };
 }
