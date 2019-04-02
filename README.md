@@ -3,13 +3,13 @@
 Simple express server for static file delivering.
 
 ## Installation
-3w is now on npm, to install it all you need is to run this on terminal:
+To install it all you need is to run this on terminal:
 
 ```
 npm install 3w -g
 ```
 
-Now to run a server and expose a directory (let's say its name is `src`) all you should do is:
+To run a server and expose a directory (let's say its name is `src`) all you should do is:
 
 ```
 3w src --3000
@@ -21,7 +21,7 @@ To enable https you could also pass `--https` which usually needs you to have `s
 3w src --3000 --https
 ```
 
-When it comes to setting up a simple Http server to expose a specific dir, we have bunch of options.
+When it comes to setting up a simple HTTP Server to serve a specific dir, we have different of options.
 One of the usual way of doing that which has a tone of restrictions, is using `python` like:
 
 ```
