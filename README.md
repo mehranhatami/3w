@@ -1,8 +1,8 @@
-#3w
+# 3w
 
 Simple express server for static file delivering.
 
-##Installation
+## Installation
 3w is now on npm, to install it all you need is to run this on terminal:
 
 ```
@@ -33,7 +33,7 @@ I created **3w** as an alternative with bunch of advanced features.
 Being able to set up http proxies is one of the useful features which saves a lot of pain when developing a web application.
 Http proxies are not provided in the current version but they will be soon with a nice and useful way of setting up the configuration.
 
-##API
+## API
 You could also `require` 3w as a module, and set up the server like:
 
 ```javascript
